@@ -1,0 +1,28 @@
+1).What is MongoDb?
+Ans).Mongo DB is a document oriented database.
+It is an open source product, developed and supported by a company named 10gen.
+
+2).Why MongoDb?
+Ans).All the modern applications require big data, fast features development, 
+flexible deployment and the older database systems not enough competent,
+ so the MongoDB was obviously needed.Properties:Scalability,Performance,High Availability,
+Scaling from single server deployments to large, complex multi-site architectures.
+
+3).What is NoSql Database?
+Ans).NoSQL Database is used to refer a non-SQL or non relational database.
+It provides a mechanism for storage and retrieval of data other than tabular
+relations model used in relational databases.NoSQL database doesn't use tables 
+for storing data.
+It is generally used to store big data and real-time web applications.
+
+4).Performance analysis of MongoDB and RDBMS
+
+In relational database (RDBMS) tables are using as storing elements, 
+while in MongoDB collection is used.
+In the RDBMS, we have multiple schema and in each schema
+ we create tables to store data while,
+ MongoDB is a document oriented database in which data is written in BSON format 
+which is a JSON like format.
+MongoDB is almost 100 times faster than traditional database systems
+
+5).

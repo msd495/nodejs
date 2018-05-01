@@ -1,0 +1,164 @@
+1).Create Database
+use myDb
+2).Check your currently selected database
+>db
+3).show dbs(List of DBs)
+4).For your Database to be listed in list of dbs
+>db.movie.insert({"name":"Ayush"})
+5).Drop Database
+>use mydb
+>db.dropDatabase()
+>show dbs
+
+6).Create collection
+>use mydb
+>show collections
+
+7).In MongoDB, you don't need to create collection. 
+MongoDB creates collection automatically,
+when you insert some document.
+
+8).>db.customer.insert({"name" : "Ayush kumar"})
+db.post.insert([
+   {
+      title: 'MongoDB Overview', 
+      description: 'MongoDB is no sql database',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 100
+   },
+	
+   {
+      title: 'NoSQL Database', 
+      description: 'NoSQL database doesn't have tables',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 20, 
+      comments: [	
+         {
+            user:'user1',
+            message: 'My first comment',
+            dateCreated: new Date(2013,11,10,2,35),
+            like: 0 
+         }
+      ]
+   }
+])
+
+8).Query a database
+>db.mycol.find().pretty()
+
+9).Update the document
+ans).db.movie.update({'course':'java'},{$set:{'course':'android'}})
+
+10).Delete the document
+ans).Remove all documents that match a condition
+db.movie.remove( { "age": "26" } )
+
+Remove a single document that match a condition
+db.movie.remove( { "age" : "26" }, 1 )  
+
+11).limit query
+ans).db.movie.find().limit(1)
+
+12).Skip query
+db.movie.find().limit(1).skip(2)
+
+13). MongoDb sort method
+db.movie.find().sort({"Course":-1})
+
+14).netsh advfirewall firewall add rule name="Open Port 80" dir=in action=allow protocol=TCP localport=80
+
+15)And query
+>db.mycol.find(
+   {
+      $and: [
+         {name: "santosh"}, {"residence":"BTM"}
+      ]
+   }
+).pretty()
+
+15).OR
+>db.mycol.find(
+   {
+      $or: [
+         {key1: value1}, {key2:value2}
+      ]
+   }
+).pretty()
+
+16).And OR
+db.mycol.find({"likes": {$gt:10}, $or: [{"by": "Ayush kumar"},
+   {"title": "MongoDB Overview"}]}).pretty()
+
+17).To update multiple documents
+db.mycol.update({'title':'MongoDB Overview'},
+   {$set:{'title':'New MongoDB Tutorial'}},{multi:true})
+18).Delete
+remove all the documents whose title is 'MongoDB Overview'.
+db.mycol.remove({'title':'MongoDB Overview'})
+19).Aggregate method
+db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
+20).Replication:
+Replication is the process of synchronizing data across multiple servers. 
+Replication provides redundancy and increases data availability 
+with multiple copies of data on different database servers. 
+Replication protects a database from the loss of a single server. 
+Replication also allows you to recover from hardware failure and service interruptions.
+ With additional copies of the data,
+ you can dedicate one to disaster recovery, reporting, or backup.
+21).How replication
+MongoDB achieves replication by the use of replica set.
+ A replica set is a group of mongod instances that host the same data set. 
+In a replica, one node is primary node that receives all write operations. 
+All other instances, such as secondaries, apply operations from the primary so that they have the same data set.
+
+22).Sharding?
+Ans).Sharding is the process of storing data records across multiple machines 
+and it is MongoDB's approach to meeting the demands of data growth. 
+As the size of the data increases, a single machine may not be sufficient to store the data nor provide an acceptable read and write throughput. 
+Sharding solves the problem with horizontal scaling. 
+With sharding, you add more machines to support data growth and the demands of read and write operations.
+
+23).why sharding?
+In replication, all writes go to master node
+Latency sensitive queries still go to master
+Single replica set has limitation of 12 nodes
+Memory can't be large enough when active dataset is big
+Local disk is not big enough
+Vertical scaling is too expensive
+
+24).
+ Replica set can have only one primary node.
+
+
+25).fetch distinct column names
+db.movie.distinct(<column name>);
+
+26).For inserting unique records
+db.collection.ensureIndex({"name":1},{unique:true})
+
+27)db.posts.mapReduce( 
+   function() { emit(this.user_id,1); }, 
+   function(key, values) {return Array.sum(values)}, {  
+      query:{status:"active"},  
+      out:"post_total" 
+   }
+	
+).find()
+Ans).
+
+{ "_id" : "tom", "value" : 2 }
+{ "_id" : "mark", "value" : 2 }
+
+28).//get unique records
+db.movie.aggregate(
+   [
+     { $sort: { name: 1,age:1} },
+     {
+       $group:
+         {
+           _id: "$name",
+           age: { $first: "$age" }
+         }
+     }
+   ]
+)
