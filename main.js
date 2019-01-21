@@ -1,10 +1,10 @@
 var greetings=require('./greetings.js');
 
-console.log(greetings);
+console.log(greetings.name);
 
 // "Hello"
-console.log(greetings.sayHelloInEnglish());
+//console.log(greetings.sayHelloInEnglish());
 
 // "Hola" 
-console.log(greetings.sayHelloInSpanish());
+//console.log(greetings.sayHelloInSpanish());
 

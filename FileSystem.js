@@ -1,22 +1,36 @@
 var fs = require("fs");
 
-console.log("Write data into file");
-fs.writeFile('input.txt', 'Hey ,how are you guys??',  function(err) {
+console.log("Write data into filesssss");
+const dataToWrite='Hey ,how are you guys??';
+const callbackWrite=function(err) {
    if (err) {
       return console.error(err);
    }
    
    console.log("Data written successfully!");
-   console.log("Let's read newly written data");
-   fs.readFile('input.txt', function (err, data) {
-      if (err) {
-         return console.error(err);
-      }
-      console.log("Read file asynchronously: " + data.toString());
-   });
-});
+   //console.log("Let's read newly written data");
+ 
+};
+fs.writeFile('input.txt',dataToWrite , callbackWrite );
 
 
+//reading from a file
+let callback=function (err, data) {
+  if (err) {
+     return console.error(err);
+  }
+  console.log("Read file asynchronously: " + data.toString());
+};
+fs.readFile('input.txt',callback);//20 mins
+console.log("ready");
+
+  //reading file synchronysly
+  var data = fs.readFileSync( 'input.txt');
+  console.log( data.toString() );
+  console.log( "Do other tasks");
+
+   
+   
 /*
 console.log("Going to create directory D://Node.js-zenrys//NodeApp//test");
 fs.mkdir('D://Node.js-zenrys//NodeApp//test',function(err){

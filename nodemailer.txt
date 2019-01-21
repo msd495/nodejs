@@ -1,0 +1,54 @@
+maillist.forEach(function (to, i , array) {
+
+
+  var msg = {
+        from: "******", // sender address
+        subject: "Hello ✔", // Subject line
+        text: "Hello This is an auto generated Email for testing  from node please ignore it  ✔", // plaintext body
+        cc: "*******"    
+        //  html: "<b>Hello world ✔</b>" // html body
+    }
+  msg.to = to;
+
+  smtpTransport.sendMail(msg, function (err) {
+      if (err) { 
+      console.log('Sending to ' + to + ' failed: ' + err);
+      return;
+    } else { 
+      console.log('Sent to ' + to);
+    }
+
+//sending all the mails together
+var maillist = '****.sharma3@****.com, ****.bussa@****.com, ****.gawri@****.com';
+
+var msg = {
+    from: "******", // sender address
+    to: maillist,
+    subject: "Hello ✔", // Subject line
+    text: "Hello This is an auto generated Email for ...  ✔", // plaintext body
+    cc: "*******"    
+    //  html: "<b>Hello world ✔</b>" // html body
+}
+//asynchronusly sending emails
+var async = require("async");
+
+async.each(maillist, function(to, callback){
+
+    msg.to = to;
+
+    smtpTransport.sendMail(msg, function (err) {
+        if (err) { 
+            console.log('Sending to ' + to + ' failed: ' + err);
+            callback(err);
+        } else { 
+            console.log('Sent to ' + to);
+            callback();
+        }
+    });
+}, function(err){
+    if(err){
+        console.log("Sending to all emails failed:" + err);
+    }
+
+    //Do other stuff or return appropriate value here
+});

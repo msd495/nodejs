@@ -1,24 +1,8 @@
-
 var cluster = require('cluster');
 var http = require('http');
-var numCPUs = 4;
-
-if (cluster.isMaster) {
-    for (var i = 0; i < numCPUs; i++) {
-    	console.log("This is "+(i+1)+" process with pid"+process.pid);
-        cluster.fork();
-    }
-} else {
-    http.createServer(function(req, res) {
-        res.writeHead(200);
-        res.end('process ' + process.pid + ' says hello!');
-    }).listen(8000);
-}
-
-
+var os=require('os');
+var numCPUs = os.cpus().length;
 /*
-var cluster = require('cluster');
-
 if (cluster.isWorker) {
   console.log('I am a worker');
 } else {
@@ -27,3 +11,17 @@ if (cluster.isWorker) {
   cluster.fork();
 }
 */
+
+if (cluster.isMaster) {
+    for (var i = 0; i < numCPUs; i++) {
+    	console.log("This is "+(i+1)+" process with pid"+process.pid);//1st time
+        cluster.fork();//4 times child process
+    
+    }
+} else {//child process
+    http.createServer(function(req, res) {
+        res.writeHead(200);
+        res.end('process ' + process.pid + ' says hello!');
+    }).listen(8000);
+}
+

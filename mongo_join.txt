@@ -75,16 +75,16 @@ Result:
         "_id" : "c1",
         "name" : "sci-fi"
     },
-    "authors" : [
-        {
-            "_id" : "a1",
-            "name" : {
-                "first" : "orlando",
+          "first" : "orlando",
                 "last" : "becerra"
             },
             "age" : 27
         }
-    ],
+    ]"authors" : [
+        {
+            "_id" : "a1",
+            "name" : {
+          ,
     "lendings" : [
         {
             "_id" : "l1",

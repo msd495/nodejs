@@ -1,4 +1,4 @@
-var fs = require("fs");
+var fs = require("fs");//class
 var data = '';
 
 // Create a readable stream
@@ -19,7 +19,7 @@ readerStream.on('end',function(){
 });
 
 readerStream.on('error', function(err){
-   console.log(err.stack);
+   console.log(err);
 });
 
 console.log("Program Ended");

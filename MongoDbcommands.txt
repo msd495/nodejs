@@ -89,14 +89,36 @@ db.movie.find().sort({"Course":-1})
 db.mycol.find({"likes": {$gt:10}, $or: [{"by": "Ayush kumar"},
    {"title": "MongoDB Overview"}]}).pretty()
 
+Like Query in MongoDb
+//Contains word string
+db.collection.find({name:{'$regex' : 'string', '$options' : 'i'}})//case insensitive search
+//Start with string
+db.collection.find({name:{'$regex' : '^string', '$options' : 'i'}})
+//Ends with string
+db.collection.find({name:{'$regex' : 'string$', '$options' : 'i'}})
+//Exact case insensitive string
+db.collection.find({name:{'$regex' : '^string$', '$options' : 'i'}})
+
+
 17).To update multiple documents
 db.mycol.update({'title':'MongoDB Overview'},
    {$set:{'title':'New MongoDB Tutorial'}},{multi:true})
 18).Delete
 remove all the documents whose title is 'MongoDB Overview'.
 db.mycol.remove({'title':'MongoDB Overview'})
+Aggregate queries...(Insert all these documents)
+json-->{ _id: 1, cust_id: "abc1", ord_date: ISODate("2012-11-02T17:04:11.102Z"), status: "A", amount: 50 }
+{ _id: 2, cust_id: "xyz1", ord_date: ISODate("2013-10-01T17:04:11.102Z"), status: "A", amount: 100 }
+{ _id: 3, cust_id: "xyz1", ord_date: ISODate("2013-10-12T17:04:11.102Z"), status: "D", amount: 25 }
+{ _id: 4, cust_id: "xyz1", ord_date: ISODate("2013-10-11T17:04:11.102Z"), status: "D", amount: 125 }
+{ _id: 5, cust_id: "abc1", ord_date: ISODate("2013-11-12T17:04:11.102Z"), status: "A", amount: 25 }
+
 19).Aggregate method
-db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
+db.orders.aggregate([
+                     { $match: { status: "A" } },
+                     { $group: { _id: "$cust_id", total: { $sum: "$amount" } } },
+                     { $sort: { total: -1 } }
+                   ])
 20).Replication:
 Replication is the process of synchronizing data across multiple servers. 
 Replication provides redundancy and increases data availability 

@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express();
+var app = express();//creating a object for express
 var cors = require('cors');
 
 app.use(cors());
@@ -26,31 +26,27 @@ app.use(function (err, req, res, next) {
 
 
 var first_function=function (req, res) {
-   console.log("Got a GET request for the homepage"+ typeof(req.params.id));
-   var index=parseInt(req.params.id);
-   var json_format=[
-
-   {"Name":"Santosh","Town":"Bhopal","Residence":"BTM layout"},
-   {"Name":"Shubashish","Town":"Rourkela","Residence":"Sony Signal"},
-   {"Name":"Vibhash","Town":"Mujaffarpur","Residence":"Kormangala"},
-   {"Name":"Ranjana","Town":"Bangalore","Residence":"Mysore"},
-   {"Name":"Ayush","Town":"Patna","Residence":"Hebbal"},
-   {"Name":"Priyanka","Town":"Bhopal","Residence":"BTM"}
-
-   ];
-
-   res.json(json_format);
+   //console.log("Got a GET request for the homepage"+ typeof(req.params.id));
+   var num1=parseInt(req.params.num1);
+   var num2=parseInt(req.params.num2);
+   var operation=req.params.oper;
+   console.log("Got a GET request for the homepage"+ num1+"num2.."+num2+"num3..."+operation);
+   if(operation == "add"){
+	   console.log("here");
+	   res.json({"operation":"add","result":(num1+num2)});
+   }
+   
 };
 
 
-app.get('/callme', first_function);
+app.get('/callme/:num1/:num2/:oper', first_function);
 
 // This responds a POST request for the homepage
 app.get('/postjson', function (req, res) {
    console.log("Got a POST request for the homepage");
    var json_format=[
 
-   {"Name":"Santosh","Town":"Bhopal","Residence":"BTM layout"},
+   {"Name":"Santos","Town":"Bhopal","Residence":"BTM layout"},
    {"Name":"Shubashish","Town":"Rourkela","Residence":"Sony Signal"},
    {"Name":"Vibhash","Town":"Mujaffarpur","Residence":"Kormangala"},
    {"Name":"Ranjana","Town":"Bangalore","Residence":"Mysore"},
