@@ -1,21 +1,96 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://127.0.0.1:27017/mydb";
-/*npm install mongodb@2.2.33 --save    (---->for db.collection is not a function)
-*/
-app.post('/callme',function(req,res){
-	
-	MongoClient.connect(url, function(err, db) {
-	  if (err) throw err;
-	  var myobj = { name: "Company Inc", address: "Highway 37" };
-	  db.collection("customers").insertOne(myobj, function(err, res) {
-		if (err) throw err;
-		console.log("1 document inserted");
-		db.close();
-	  });
-	});
+let MongoClient = require('mongodb').MongoClient;
 
+const url = "mongodb://127.0.0.1:27017/newDb";
+
+const express= require('express');
+let app =express();
+
+function connect(){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        console.log("Database created!");
+        db.close();
+    });
 }
 
+function createCollection(){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        let dbase = db.db("newDb");
+        dbase.createCollection("customers", function(err, res) {
+            if (err) throw err;
+            console.log("Collection created!");
+            db.close();
+        });
+    });
+}
+
+function insertOne(){
+
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        let dbase = db.db("newDb");
+        var myobj = { name: "Company Inc", address: "Highway 37" };
+        dbase.collection("customers").insertOne(myobj, function(err, res) {
+            if (err){
+                throw err;
+                return -1
+            }
+            console.log("1 document inserted");
+            db.close();
+        });
+    });
+}
+
+async function getData(db){
+    let dbase = db.db("newDb");
+    let data=[]
+    try{
+        let res= await dbase.collection("customers").find({}).toArray();
+        console.log("res is ",res)
+        data.push(res)
+    }catch (err) {
+        console.log(err);
+    } finally {
+        db.close();
+    }
+    return data;
+}
+
+async function findOne(){
+    const client = await MongoClient.connect(url, { useNewUrlParser: true })
+        .catch(err => { console.log(err); });
+
+    if (!client) {
+        return;
+    }
+    return await getData(client)
+}
+
+app.get('/findOne',async function (req,res) {
+    const result=await findOne();
+    console.log(" result is ",result)
+    res.send(result)
+})
+
+app.post('/creatDb',function (req,res) {
+    connect()
+})
+
+app.post('/insertOne',function (req,res) {
+    const dt=insertOne()
+    dt!==-1?res.send("inserted"):res.send("Failed")
+
+})
+
+app.post('/creatCollection',function (req,res) {
+    createCollection()
+    res.send({"msg":"colelction created"})
+})
+
+app.listen(3001, () => {
+    console.log(`Express server atarted`);
+})
 /*
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
