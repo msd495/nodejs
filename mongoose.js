@@ -19,44 +19,58 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var con ;
 var userSchema= new Schema({
-	userid: {type:String, required:true, trim:true,index:true,unique:true},
-	chips: {type:Number}
+    userid: {type:String, required:true, trim:true,index:true,unique:true},
+    chips: {type:Number}
 });
 
 var userModel = mongoose.model('users',userSchema);
 mongoose.set('useCreateIndex', true);
-var alex = new userModel({userid:'sowmya2',chips:10000,regdate:Date.now});
+
+
 var cb = function(err){
-	if(!err)
-		console.log("Connection Opened");
-	else
-		console.log("Connection Opened Failed");
-	};
+    if(!err)
+        console.log("Connection Opened");
+    else
+        console.log("Connection Opened Failed");
+};
 mongoose.connect("mongodb://127.0.0.1:27017/mongooseTutorial",{useNewUrlParser:true},cb);
 con = mongoose.connection;
 
-
 //saving a document
+function insert(){
+    var alex = new userModel({userid:'sowmya2',chips:10000,regdate:Date.now});
+    alex.save(function(err,alex){
+        if(err){
+            console.log(err);
+        }else{
+            console.log("Document Save Done");
+        }
 
-alex.save(function(err,alex){
-	if(err){
-		console.log(err);
-	}else{
-		console.log("Document Save Done");
-	}
+    });
 
-});
+}
 
 
-//finding a document
+function Find(){
+    var echoRecords =function(err,log){
+        console.log("Total Records Found:"+log.length);
+        for(var i=0;i<log.length;i++){
+            console.log((i+1)+"\t"+log[i]._id+"\t"+log[i].userid+"\t"+log[i].chips);
+        }
+    };
+    userModel.find(echoRecords);
+}
 
-var echoRecords =function(err,log){
-	console.log("Total Records Found:"+log.length);
-	for(var i=0;i<log.length;i++){
-		console.log((i+1)+"\t"+log[i]._id+"\t"+log[i].userid+"\t"+log[i].chips);
-	}
-};
-userModel.find(echoRecords);
+function Update(){
+    //update a document
+    userModel.updateOne({userid:"sowmya2"},{chips:25000},function(err,log){
+        console.log("Number of Records Effected"+JSON.stringify(log));
+    });
+}
+
+Update()
+
+
 
 //update a document
 userModel.update({userid:"Alex"},{chips:25000},function(err,log){
